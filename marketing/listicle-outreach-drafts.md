@@ -192,10 +192,12 @@ Verbatim details the draft leans on:
 > the web build is the same phone-shaped app rather than a desktop one. What I had in mind is the
 > paragraph where you point out that bookmarking tools like Raindrop.io and Pinboard can be used to
 > save articles, trading offline extraction for organisational features. That paragraph is where
-> SaveBoard honestly sits, and right now everything named in it is desktop-and-extension shaped.
-> Raindrop is well ahead of us on breadth — nested collections, extensions, integrations, years of
-> features — the only thing I'd claim is a different axis: saving on a phone, from inside other
-> apps.
+> SaveBoard honestly sits. Raindrop and Pinboard both have phone apps too, so I won't pretend the
+> phone is ours alone, and Raindrop is well ahead of us on breadth — nested collections,
+> extensions, integrations, years of features. The narrower thing I'd claim: SaveBoard is built
+> phone-first, the board is the whole product rather than a list with a grid view, and it keeps its
+> own copy of previews that expire (Instagram's do), so what you saved still looks like what you
+> saved weeks later.
 >
 > If it ever earns a clause in that sidebar, that's the whole ask. Free tier is 30 saves and five
 > boards with no card, Pro is A$5.49 a month or A$34.99 a year in Australian dollars — we're an
