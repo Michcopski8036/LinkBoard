@@ -21,7 +21,7 @@ alter table public.system_accounts enable row level security;
 -- SECURITY DEFINER functions below (and the service role) can see it.
 
 insert into public.system_accounts (user_id, note)
-values ('b749a7b5-ccb6-432f-b475-2abc424d3ff5', 'SaveBoard Guides — publishes one public board per /guides/ post')
+values ('936d3b54-241b-4c6e-b276-9f4713509fb4', 'SaveBoard Guides — publishes one public board per /guides/ post')
 on conflict (user_id) do nothing;
 
 create or replace function public.is_system_account(p_user uuid)

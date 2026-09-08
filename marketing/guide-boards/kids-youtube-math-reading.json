@@ -1,0 +1,30 @@
+{
+  "boardName": "Maths and reading YouTube channels for kids",
+  "boardNameKo": "어린이 수학·읽기 유튜브 채널 3곳",
+  "items": [
+    {
+      "title": "Numberblocks and Alphablocks",
+      "titleKo": "넘버블록스 · 알파블록스",
+      "url": "https://www.blocksuniverse.tv/",
+      "description": "Preschool · official site. Numbers as blocks, letters as characters — counting, adding and phonics become something you watch happen. The makers publish no channel address, so this is the accurate place to start.",
+      "descriptionKo": "미취학 · 공식 사이트. 숫자가 블록으로, 알파벳이 캐릭터로 나와요. 유튜브 주소를 따로 공개하지 않아서 공식 사이트를 걸었어요.",
+      "image": ""
+    },
+    {
+      "title": "Numberock",
+      "titleKo": "넘버록 Numberock",
+      "url": "https://www.youtube.com/channel/UCt9SZgFExNwWTH5T_JnyF-A",
+      "description": "Primary school · free. Times tables and place value set to music — the kind a child hums for a week and then simply knows. The brand is one word: Numberock.",
+      "descriptionKo": "초등 · 무료. 구구단, 자릿수를 노래로 만들어요. 흥얼거리다 외워지는 종류예요. 브랜드는 붙여 쓴 Numberock이에요.",
+      "image": ""
+    },
+    {
+      "title": "Storyline Online",
+      "titleKo": "스토리라인 온라인",
+      "url": "https://www.youtube.com/StorylineOnline",
+      "description": "Preschool–primary · free, nothing sold. Actors read picture books aloud, Meryl Streep among them. Run by the SAG-AFTRA Foundation. Good at bedtime.",
+      "descriptionKo": "유아~초등 · 무료, 파는 것 없음. 배우들이 그림책을 읽어줘요. 미국 배우조합 재단이 운영해요. 잠들기 전에 좋아요.",
+      "image": ""
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "boardName": "General knowledge YouTube channels for kids",
+  "boardNameKo": "어린이 지식·사고력 유튜브 채널 3곳",
+  "items": [
+    {
+      "title": "TED-Ed",
+      "titleKo": "TED-Ed",
+      "url": "https://www.youtube.com/tededucation",
+      "description": "No stated age · free. Short animated lessons on questions worth sitting with. The riddle videos get children pausing the screen to think. Suits upper primary and older.",
+      "descriptionKo": "연령 표기 없음 · 무료. 짧은 애니메이션으로 깊은 질문을 다뤄요. 수수께끼 영상은 아이가 먼저 멈춰놓고 생각해요. 초등 고학년 이상에 맞아요.",
+      "image": ""
+    },
+    {
+      "title": "Khan Academy Kids",
+      "titleKo": "칸아카데미 키즈",
+      "url": "https://www.youtube.com/channel/UC2ri4rEb8abnNwXvTjg5ARw",
+      "description": "Ages 2–8 · free, nothing sold. The only entry here that states an age in plain numbers. The app says “100% free - forever”, no ads and no subscription.",
+      "descriptionKo": "2~8세 · 완전 무료. 이 목록에서 연령을 숫자로 밝힌 유일한 곳이에요. 앱도 광고와 구독이 없어요.",
+      "image": ""
+    },
+    {
+      "title": "Cosmic Kids Yoga",
+      "titleKo": "코스믹 키즈 요가",
+      "url": "https://www.youtube.com/c/CosmicKidsYoga",
+      "description": "Preschool–lower primary · free. Children follow a story while moving through it. Yoga and mindfulness, so not a knowledge channel — it earns its place on rainy afternoons and before bed.",
+      "descriptionKo": "유아~초등 저학년 · 무료. 이야기를 따라가며 몸을 움직여요. 지식 채널은 아니고, 비 오는 날이나 잠들기 전에 쓸모가 있어요.",
+      "image": ""
+    }
+  ]
+}

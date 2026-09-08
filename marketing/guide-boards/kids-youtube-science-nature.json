@@ -1,0 +1,30 @@
+{
+  "boardName": "Science YouTube channels for kids — 3 worth watching",
+  "boardNameKo": "어린이 과학 유튜브 채널 3곳",
+  "items": [
+    {
+      "title": "SciShow Kids",
+      "titleKo": "SciShow Kids",
+      "url": "https://www.youtube.com/user/scishowkids",
+      "description": "No stated age · free. Jessi and Squeaks the robot rat answer the questions children actually ask, and run experiments. Made by Complexly, the non-profit behind Crash Course.",
+      "descriptionKo": "연령 표기 없음 · 무료. 제시와 로봇 쥐 스퀵스가 아이들이 던지는 질문에 답해요. 실험도 같이 해요. 크래시코스를 만든 비영리 Complexly가 만들어요.",
+      "image": ""
+    },
+    {
+      "title": "Crash Course Kids",
+      "titleKo": "Crash Course Kids",
+      "url": "https://www.youtube.com/crashcoursekids",
+      "description": "3rd–5th grade · free. One of the few channels whose makers state an age outright. Science and humanities, built to sit alongside a classroom. If your child is four, it is still ahead of them.",
+      "descriptionKo": "3~5학년 · 무료. 만드는 쪽이 대상 연령을 직접 밝힌 드문 채널이에요. 수업이나 홈스쿨에 맞춰 만들었어요. 네 살이라면 아직 일러요.",
+      "image": ""
+    },
+    {
+      "title": "National Geographic",
+      "titleKo": "National Geographic",
+      "url": "https://www.youtube.com/@NatGeo",
+      "description": "Not a children's channel · free. Wildlife, space and places, filmed beautifully enough that children watch with the sound off. This is the general audience channel — pick the video yourself.",
+      "descriptionKo": "어린이 전용 아님 · 무료. 야생동물, 우주, 세계 여러 나라. 화면이 예뻐서 소리 없이도 봐요. 일반 관객용 본채널이니 영상은 골라주세요.",
+      "image": ""
+    }
+  ]
+}

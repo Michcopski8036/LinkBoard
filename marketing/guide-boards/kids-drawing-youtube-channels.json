@@ -1,0 +1,38 @@
+{
+  "boardName": "Drawing YouTube channels for kids — 4 to follow along with",
+  "boardNameKo": "어린이 그림 그리기 유튜브 채널 4곳",
+  "items": [
+    {
+      "title": "Art for Kids Hub",
+      "titleKo": "Art for Kids Hub",
+      "url": "https://youtube.com/artforkidshub",
+      "description": "Ages 5 to primary · free. Rob draws beside his own children and their attempts stay on screen next to his — so a child sees a drawing they could actually manage. Enormous library.",
+      "descriptionKo": "5세~초등 · 무료. 아빠 Rob이 아이들과 나란히 앉아 같이 그려요. 아이가 그리는 모습이 같이 나와서 “나도 되겠다” 싶어져요. 종류가 아주 많아요.",
+      "image": ""
+    },
+    {
+      "title": "Cartooning Club How to Draw",
+      "titleKo": "Cartooning Club How to Draw",
+      "url": "https://www.youtube.com/@cartooningclub",
+      "description": "Primary and up · free. Superheroes, anime and game characters. Best for a child who already has a favourite they want to draw. More lines, longer steps.",
+      "descriptionKo": "초등 이상 · 무료. 슈퍼히어로, 애니메이션, 게임 캐릭터를 그려요. 좋아하는 캐릭터가 있는 아이에게 맞아요. 선이 많고 단계가 길어요.",
+      "image": ""
+    },
+    {
+      "title": "Draw So Cute",
+      "titleKo": "Draw So Cute",
+      "url": "https://www.youtube.com/drawsocute",
+      "description": "Preschool–primary · free. Exactly what the name says. Wennie runs it, and free colouring pages sit alongside the videos — handy when a child wants to keep going.",
+      "descriptionKo": "유아~초등 · 무료. 이름 그대로 귀여운 그림이에요. Wennie가 운영하고, 무료 컬러링 도안도 같이 둬요. 색칠까지 이어갈 때 편해요.",
+      "image": ""
+    },
+    {
+      "title": "Draw With Rob",
+      "titleKo": "Draw With Rob",
+      "url": "https://youtube.com/c/robbiddulph72",
+      "description": "Preschool–primary · free. British picture-book author Rob Biddulph started this in the 2020 lockdowns, made for a parent and child to watch together. Unhurried pace, kind voice.",
+      "descriptionKo": "유아~초등 · 무료. 영국 그림책 작가 Rob Biddulph가 2020년에 시작했어요. 부모가 아이와 같이 보라고 만들었어요. 속도가 느긋하고 설명이 다정해요.",
+      "image": ""
+    }
+  ]
+}

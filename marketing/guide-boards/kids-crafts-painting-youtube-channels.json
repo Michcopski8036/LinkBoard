@@ -1,0 +1,46 @@
+{
+  "boardName": "Craft and painting YouTube channels for kids",
+  "boardNameKo": "어린이 만들기·미술 유튜브 채널 5곳",
+  "items": [
+    {
+      "title": "The Best Ideas for Kids",
+      "titleKo": "The Best Ideas for Kids",
+      "url": "https://www.youtube.com/channel/UCuQZN7STmlGaDHaWHng-6AA",
+      "description": "All ages · free. The shortest supply lists here — most of it starts with what is already in a kitchen drawer. Easy to pick by season. Run by Kimberly McLeod.",
+      "descriptionKo": "전 연령 · 무료. 준비물이 제일 적어요. 집에 이미 있는 걸로 바로 시작해요. 계절마다 골라 쓰기 좋아요. Kimberly McLeod가 운영해요.",
+      "image": ""
+    },
+    {
+      "title": "Red Ted Art",
+      "titleKo": "Red Ted Art",
+      "url": "https://www.youtube.com/channel/UCjjRFKvjpU1L1eDmfBWcqig",
+      "description": "Preschool–primary · free. Maggy Woodley makes it — bright, inventive, heavy on paper folding and turning packaging into something else. Short enough instructions for a child to follow alone.",
+      "descriptionKo": "유아~초등 · 무료. Maggy Woodley가 만들어요. 종이접기, 재활용품 만들기가 많아요. 설명이 짧고 명확해서 아이 혼자 따라 하기도 괜찮아요.",
+      "image": ""
+    },
+    {
+      "title": "Messy Little Monster",
+      "titleKo": "Messy Little Monster",
+      "url": "https://www.youtube.com/c/messylittlemonster",
+      "description": "Preschool · free. Louise, a mother of three and an early years teacher, makes it. This is the messy-play one — squishing, smearing, hands in it. The printables are free.",
+      "descriptionKo": "유아 · 무료. 세 아이 엄마이자 유아교사인 Louise가 만들어요. 어지르는 놀이를 다뤄요. 손으로 만지고 문지르는 활동이 많고, 도안도 무료예요.",
+      "image": ""
+    },
+    {
+      "title": "Babble Dabble Do",
+      "titleKo": "Babble Dabble Do",
+      "url": "https://www.youtube.com/channel/UCxcWYE_GFpLKyRFi_dzlkhQ",
+      "description": "Primary · free. Ana Dziengel trained in architecture and industrial design, and it shows — a lot of what you make here stands up and holds together. For an older child who wants to know why it works.",
+      "descriptionKo": "초등 · 무료. 건축과 산업디자인을 공부한 Ana Dziengel이 만들어요. 만들면 구조가 되는 것들이 많아요. “왜 이렇게 되지?”를 배우기 좋아요.",
+      "image": ""
+    },
+    {
+      "title": "Deep Space Sparkle",
+      "titleKo": "Deep Space Sparkle",
+      "url": "https://www.youtube.com/user/DeepSpaceSparkle",
+      "description": "Primary · free. This is the painting one. Patty Palmer teaches it the way an art teacher would, in proper lessons. For the child who would rather paint than build.",
+      "descriptionKo": "초등 · 무료. 여기가 그림물감 자리예요. 미술 교사 Patty Palmer가 수업하듯 알려줘요. 만들기보다 그리기·칠하기에 관심 있는 아이에게 맞아요.",
+      "image": ""
+    }
+  ]
+}
