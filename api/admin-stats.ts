@@ -237,6 +237,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     ]);
 
     const traffic = computeTraffic((pageEventsRes.data ?? []) as PageEvent[], now, cronPrevWeekRes.count ?? 0);
+    // page_events 조회가 실패하면 visits7d는 "0"이 아니라 "모름"이다 — 0으로 나가면
+    // AI Office 크론이 그대로 적어 "방문 0"이 결과처럼 읽힌다(링크 수와 같은 규칙, 09-08).
+    const trafficOut = pageEventsRes.error
+      ? { ...traffic, visits7d: null, boardClicks7d: null, topSources: [], topReferrers: [] }
+      : traffic;
+    if (pageEventsRes.error) console.log('[admin-stats] page_events failed:', pageEventsRes.error.message);
 
     // 2026-08-31: AI Office 실적 패널이 SaveBoard도 "재방문·저장"으로 읽을 수 있게
     // 집계 **숫자만** 추가한다. SaveBoard는 계정이 있는 앱이라 이 숫자들은 이미
@@ -253,14 +259,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       Date.parse(u.user_metadata?.last_seen ?? '');
     const within = (t: number, ms: number) => Number.isFinite(t) && nowMs - t <= ms;
 
+    // 사용자 목록 조회가 실패하면 사용자 관련 다섯 값도 전부 null — 빈 배열로 세면
+    // "사용자 0·주간 활성 0"이 결과처럼 나간다(09-08 리뷰). 링크 수와 같은 규칙.
+    const usersKnown = !cronUsersRes.error;
+    if (!usersKnown) console.log('[admin-stats] listUsers failed:', cronUsersRes.error?.message);
+    const countUsers = (pred: (u: (typeof cronUsers)[number]) => boolean) =>
+      usersKnown ? cronUsers.filter(pred).length : null;
     const aggregate = {
-      totalUsers: cronUsers.length,
-      newThisWeek: cronUsers.filter(u => (u.created_at ?? '') >= weekIso).length,
+      // ⚠️ perPage 1000 — 사용자가 1000명을 넘으면 여기 숫자가 거기서 멈춘다. 그때 페이지네이션.
+      totalUsers: usersKnown ? cronUsers.length : null,
+      newThisWeek: countUsers(u => (u.created_at ?? '') >= weekIso),
       // last_seen = 앱이 열려 있을 때 찍히는 하트비트, last_sign_in_at = 실제 인증.
       // 둘 다 내보내는 이유는 "실행"과 "로그인"이 다른 질문이기 때문이다.
-      activeToday: cronUsers.filter(u => within(seenMs(u), 24 * 3600_000)).length,
-      activeWeek: cronUsers.filter(u => within(seenMs(u), 7 * 24 * 3600_000)).length,
-      loginsWeek: cronUsers.filter(u => within(Date.parse(u.last_sign_in_at ?? ''), 7 * 24 * 3600_000)).length,
+      activeToday: countUsers(u => within(seenMs(u), 24 * 3600_000)),
+      activeWeek: countUsers(u => within(seenMs(u), 7 * 24 * 3600_000)),
+      loginsWeek: countUsers(u => within(Date.parse(u.last_sign_in_at ?? ''), 7 * 24 * 3600_000)),
       // A failed count must not arrive as 0. Reporting "nobody saved this week"
       // when the question was never answered is worse than reporting nothing:
       // it reads as a finding and gets acted on. null means "unknown"; the cron
@@ -270,7 +283,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
     if (cronLinksWeekRes.error) console.log('[admin-stats] links week count failed:', cronLinksWeekRes.error.message);
 
-    return res.status(200).json({ traffic, aggregate, generatedAt: now.toISOString() });
+    return res.status(200).json({ traffic: trafficOut, aggregate, generatedAt: now.toISOString() });
   }
 
   const weekAgo  = new Date(now.getTime() - 7  * 86400000).toISOString();
