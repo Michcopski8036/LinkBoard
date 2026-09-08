@@ -18,6 +18,7 @@ export interface PromoFields {
   promoUrl: string;
   promoImage: string;
   promoImageAlt: string;
+  promoImageBg?: string;
   promoImageW: string;
   promoImageH: string;
   promoFine: string;
@@ -33,7 +34,7 @@ export interface PromoFields {
 export const PROMO_THEMES: Record<string, { card: string; imgCol: string; eyebrow: string; cta: string }> = {
   default: {
     card: 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 shadow-purple-100',
-    imgCol: 'bg-[#171310]',
+    imgCol: 'bg-[#F9F5F4]',
     eyebrow: 'text-purple-600',
     cta: 'bg-gradient-to-r from-[#A259FF] to-[#FF7262] shadow-purple-200',
   },
@@ -72,6 +73,7 @@ export function PromoCard({ promo, ko }: { promo: PromoFields; ko: boolean }) {
           {promo.promoImage && (
             <span
               className={`block shrink-0 min-[620px]:w-[45%] min-[620px]:max-w-[320px] min-[620px]:flex min-[620px]:items-center ${theme.imgCol}`}
+              style={promo.promoImageBg ? { background: promo.promoImageBg } : undefined}
             >
               <img
                 src={promo.promoImage}

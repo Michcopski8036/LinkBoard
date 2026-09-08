@@ -28,6 +28,10 @@ export interface GuideMeta {
   promoImageAlt: string;
   promoImageW: string;
   promoImageH: string;
+  /** Optional `promo_image_bg` — the field behind the shot. Defaults to the
+   *  theme's; set it when the image's own edges are a different colour
+   *  (CourtClock's is near-black, SaveBoard's is cream) or you get bars. */
+  promoImageBg: string;
   promoFine: string;
   /** Optional `promo_theme` — "rose" restyles the card in PeriodVol's palette; absent = SaveBoard purple. */
   promoTheme: string;
@@ -49,7 +53,7 @@ export interface GuidePair {
 
 function parseGuide(raw: string): GuideMeta {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-  const empty: GuideMeta = { title: '', date: '', description: '', slug: '', keywords: '', lang: 'en', boardUrl: '', boardImage: '', promoNote: '', promoTitle: '', promoText: '', promoCta: '', promoUrl: '', promoImage: '', promoImageAlt: '', promoImageW: '', promoImageH: '', promoFine: '', promoTheme: '', content: raw };
+  const empty: GuideMeta = { title: '', date: '', description: '', slug: '', keywords: '', lang: 'en', boardUrl: '', boardImage: '', promoNote: '', promoTitle: '', promoText: '', promoCta: '', promoUrl: '', promoImage: '', promoImageAlt: '', promoImageW: '', promoImageH: '', promoImageBg: '', promoFine: '', promoTheme: '', content: raw };
   if (!match) return empty;
   const data: Record<string, string> = {};
   match[1].split('\n').forEach(line => {
@@ -75,6 +79,7 @@ function parseGuide(raw: string): GuideMeta {
     promoImageAlt: data.promo_image_alt ?? '',
     promoImageW: data.promo_image_w ?? '',
     promoImageH: data.promo_image_h ?? '',
+    promoImageBg: data.promo_image_bg ?? '',
     promoFine: data.promo_fine ?? '',
     promoTheme: data.promo_theme ?? '',
     content: match[2].trim(),

@@ -17,6 +17,7 @@ promo_image: "/guides/courtclock-gauges.jpg"
 promo_image_alt: "경기 중 CourtClock 화면: 뛴 시간만큼 차오른 선수 아이콘, 빨개져서 땀 흘리는 두 선수, 코트 위 'Sub out: Noah, Ruby' 알림, 적게 뛴 순서로 정렬된 벤치"
 promo_image_w: "720"
 promo_image_h: "775"
+promo_image_bg: "#171310"
 promo_fine: "이 가이드를 쓴 저희 팀이 만들었어요. 아래 순위는 이 배너와 무관하게 중립이고, CourtClock은 순위 밖 항목이에요."
 ---
 

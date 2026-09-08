@@ -17,6 +17,7 @@ promo_image: "/guides/courtclock-gauges.jpg"
 promo_image_alt: "CourtClock mid-game: player icons filled to different levels by time played, two players red and sweating, a 'Sub out: Noah, Ruby' alert above the court, and the bench sorted least-played-first"
 promo_image_w: "720"
 promo_image_h: "775"
+promo_image_bg: "#171310"
 promo_fine: "Made by the team behind this guide. The ranking below stays neutral — CourtClock sits outside it."
 ---
 

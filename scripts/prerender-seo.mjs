@@ -24,6 +24,7 @@ const PROMO_KEYS = {
   promo_image_alt: 'promoImageAlt',
   promo_image_w: 'promoImageW',
   promo_image_h: 'promoImageH',
+  promo_image_bg: 'promoImageBg',
   promo_fine: 'promoFine',
   promo_theme: 'promoTheme',
 };
@@ -597,7 +598,7 @@ function promoHtml(guide) {
     // — 2026-09-04에 잠깐 전부 무토로 통일했다가 누나가 되돌렸다. 다시 통일하지 말 것.
     : { border: '#e9d5ff', bg: '#faf5ff', eyebrow: '#9333ea', cta: '#A259FF' };
   const img = guide.promoImage
-    ? `<div class="pvp-media"><img src="${escAttr(guide.promoImage)}"
+    ? `<div class="pvp-media"${guide.promoImageBg ? ` style="background:${escAttr(guide.promoImageBg)}"` : ''}><img src="${escAttr(guide.promoImage)}"
           alt="${escAttr(guide.promoImageAlt)}" width="${escAttr(guide.promoImageW)}" height="${escAttr(guide.promoImageH)}"
           loading="lazy" /></div>`
     : '';
@@ -607,7 +608,7 @@ function promoHtml(guide) {
   const css = `<style>
     .pvp{display:block;border-radius:16px;overflow:hidden;color:inherit;text-decoration:none}
     .pvp-in{display:flex;flex-direction:column}
-    .pvp-media{flex:none;background:#fff}
+    .pvp-media{flex:none;background:#F9F5F4}
     .pvp-title{line-height:1.25}
     .pvp-media img{display:block;width:100%;height:auto}
     .pvp-body{padding:20px;min-width:0}

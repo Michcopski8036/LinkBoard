@@ -20,7 +20,7 @@ export interface PostMeta extends PromoFields {
 
 function parseFrontmatter(raw: string): PostMeta {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-  const noPromo: PromoFields = { promoNote: '', promoTitle: '', promoText: '', promoCta: '', promoUrl: '', promoImage: '', promoImageAlt: '', promoImageW: '', promoImageH: '', promoFine: '', promoTheme: '' };
+  const noPromo: PromoFields = { promoNote: '', promoTitle: '', promoText: '', promoCta: '', promoUrl: '', promoImage: '', promoImageAlt: '', promoImageW: '', promoImageH: '', promoImageBg: '', promoFine: '', promoTheme: '' };
   if (!match) return { title: '', date: '', description: '', slug: '', route: '', lang: 'en', altLangUrl: '', ...noPromo, content: raw };
   const data: Record<string, string> = {};
   match[1].split('\n').forEach(line => {
@@ -47,6 +47,7 @@ function parseFrontmatter(raw: string): PostMeta {
     promoImageAlt: data.promo_image_alt ?? '',
     promoImageW: data.promo_image_w ?? '',
     promoImageH: data.promo_image_h ?? '',
+    promoImageBg: data.promo_image_bg ?? '',
     promoFine: data.promo_fine ?? '',
     promoTheme: data.promo_theme ?? '',
     content: match[2].trim(),
