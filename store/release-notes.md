@@ -5,6 +5,28 @@ Console release notes. Play's limit is 500 characters per language.
 
 ---
 
+## iOS 1.0.10 / Android 1.0.15
+
+Leads with sharing, because that is where every change in this build lands.
+The Android "go back to the app you came from" line is real only on Android;
+the wording keeps it neutral ("gets out of your way") so the same text is true
+on iOS, where the share extension already dismissed itself. The thumbnail
+persistence is the fix people were reporting as "my Instagram card went blank".
+
+### English
+
+```
+Saving from other apps just got smoother. Share a TikTok link and SaveBoard now picks up the title and thumbnail. Instagram, Facebook, TikTok and X previews no longer disappear after a few days — SaveBoard keeps its own copy. After you save from the share sheet, SaveBoard gets out of your way and returns you to what you were doing. Plus small layout fixes.
+```
+
+### 한국어
+
+```
+다른 앱에서 저장하기가 더 매끄러워졌어요. 틱톡 링크를 공유하면 제목과 썸네일을 바로 가져옵니다. 인스타그램·페이스북·틱톡·X 미리보기가 며칠 뒤 사라지던 문제도 해결 — SaveBoard가 직접 사본을 보관해요. 공유 시트에서 저장하면 SaveBoard가 물러나고 하던 앱으로 돌아갑니다. 자잘한 화면 수정도 포함돼 있어요.
+```
+
+---
+
 ## iOS 1.0.9 / Android 1.0.14
 
 Leads with startup speed — the change every user feels on every launch. The

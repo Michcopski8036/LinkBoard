@@ -21,12 +21,51 @@ notes live in `store/release-notes.md`.
 
 | iOS | build | Android | vc | Status | Date |
 |---|---|---|---|---|---|
-| 1.0.9 | 21 | 1.0.14 | 18 | **iOS uploaded to ASC (web submission pending) · Android AAB built (Play upload pending)** — Android payment-screen fix (Apple IAP view shown since 05-27 → paying impossible) + all Aug feature work, cumulative | 2026-08-13 |
+| 1.0.10 | 22 | 1.0.15 | 19 | **Built + uploaded 2026-09-09 (console submission pending)** — share-sheet save returns you to the source app (Android), TikTok titles/thumbnails, thumbnails that outlive the platform CDN, update banner under the status bar, shared-board links no longer eat the Free quota | 2026-09-09 |
+| 1.0.9 | 21 | 1.0.14 | 18 | **LIVE both stores** (store-verified 2026-09-09: iOS released 2026-08-14, Play shows 1.0.14) — Android payment-screen fix (Apple IAP view shown since 05-27 → paying impossible) + all Aug feature work, cumulative | 2026-08-13 |
 | 1.0.8 | 20 | — | — | **iOS LIVE 2026-07-28** (store-verified 2026-08-13) — YouTube in-app playback fix (WKWebView UA + IFrame Player API), billing-failure recovery, iPhone layout (safe-area top, bottom-nav spacing). Android 1.0.13/vc17 was built 07-23 but **never uploaded** → superseded by 1.0.14/vc18 | 2026-07-27 |
 | 1.0.7 | 19 | 1.0.12 | 16 | **Both submitted for review** | 2026-07-19 |
 | 1.0.6 | 18 | 1.0.11 | 15 | **LIVE** both stores | iOS 2026-07-17 |
 
 ---
+
+## iOS 1.0.10 (build 22) / Android 1.0.15 (versionCode 19) — built 2026-09-09
+
+Baseline for both platforms is 1.0.9/build 21 and 1.0.14/vc18, both live
+(iOS lookup: `1.0.9 2026-08-14`; Play page: `1.0.14`). The 1.0.9 train is
+closed, so MARKETING_VERSION moves to 1.0.10. Everything below has been live
+on the web since it merged; this build is what carries it to the apps.
+
+**Sharing into SaveBoard**
+
+- Android: after saving from the share sheet, SaveBoard minimises and you
+  land back in the app you shared from — no more being stranded in SaveBoard
+  (`5c51f544`, `leaveAfterShareSave` in `App.tsx`; only on the send-intent
+  path, so a normal launch is unaffected).
+- TikTok links get a real title and thumbnail through TikTok's oEmbed
+  (`73a9a033`, `api/metadata.ts`). If the lookup fails the API returns a stub
+  instead of hanging the save (`971e8bc4`).
+- Instagram / Facebook / TikTok / X thumbnails are signed CDN URLs that expire
+  within days, after which the card lost its preview. After the card is
+  created the client asks `api/proxy?mode=image` to copy the image into our
+  storage and rewrites `links.image` to the stored copy (`bd5d7e16`,
+  `0ac4359b`, `EXPIRING_IMAGE_HOSTS` in `App.tsx`). Copy happens after insert
+  so a slow copy never delays the save.
+
+**Also in this build**
+
+- Update banner (`UpdateGate`) starts below the status bar instead of under
+  it (`63fa55d6`, safe-area top inset).
+- Links on a shared board you were invited to no longer count against your
+  own Free saves quota (`082ce92d`); viewer → member bridge on the `/team`
+  invite page (`0fb9ae79`, needs the `20260819_board_invite_preview.sql`
+  migration — applied to prod 2026-08-19 with the web deploy).
+
+**Not in the apps (web/server only):** guides/SEO/blog work, admin-stats
+changes, API region move to icn1 — none of it is client code the app bundles.
+
+**After both stores go live:** bump `app_config.latest_version` (iOS
+`1.0.10`, Android `1.0.15`). Not done at build time on purpose.
 
 ## iOS 1.0.9 (build 21) / Android 1.0.14 (versionCode 18) — built 2026-08-13
 
