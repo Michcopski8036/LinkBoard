@@ -7,16 +7,7 @@ keywords: "어린이 과학 유튜브, 초등 과학 영상, 아이 과학 채�
 lang: "ko"
 list_type: "thing"
 board_url: "https://www.saveboard.app/share/9a2f4083-051d-4a67-9ef5-3b2c486d1574"
-promo_note: "먼저 밝혀요: 이 앱은 저희가 만들었어요"
-promo_title: "채널 다섯 곳, 다음에 또 찾지 않으려면."
-promo_text: "아이랑 볼 채널은 그때그때 검색해서 찾게 돼요. SaveBoard에 링크를 저장해두면 카드로 한 화면에 모여서, 다음 주에 다시 찾지 않아도 돼요. 저장 30개, 보드 5개까지 무료예요."
-promo_cta: "SaveBoard 무료로 시작하기"
-promo_url: "https://www.saveboard.app/"
-promo_image: "/guides/shared-board-app.jpg"
-promo_image_alt: "SaveBoard 앱 화면. 저장한 링크가 사진과 제목이 보이는 카드로 한 화면에 모여 있어요"
-promo_image_w: "520"
-promo_image_h: "722"
-promo_fine: "이 가이드를 쓴 팀이 만든 앱이에요. 아래 채널 추천과는 무관하고, 광고비를 받은 채널은 없어요."
+board_image: "/guides/kids-youtube-science-nature-board.jpg"
 status: "승인 대기"
 ---
 

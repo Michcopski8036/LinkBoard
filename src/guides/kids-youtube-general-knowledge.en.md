@@ -7,16 +7,7 @@ keywords: "educational youtube channels for kids, ted-ed for children, khan acad
 lang: "en"
 list_type: "thing"
 board_url: "https://www.saveboard.app/share/e8eb98f4-3be1-4d8c-95da-090f00a7b791"
-promo_note: "Full disclosure: this is our app"
-promo_title: "Five channels, and no hunting for them next week."
-promo_text: "Channels you watch with your child get found by searching, every time. Save the links to SaveBoard and they sit together as cards on one screen, ready the next time you need them. Free for 30 saves and 5 boards."
-promo_cta: "Get SaveBoard — it’s free"
-promo_url: "https://www.saveboard.app/"
-promo_image: "/guides/shared-board-app.jpg"
-promo_image_alt: "The SaveBoard app, with saved links shown as cards with their pictures and titles on one screen"
-promo_image_w: "520"
-promo_image_h: "722"
-promo_fine: "Made by the team behind this guide. It has nothing to do with which channels are listed — none of them paid to be here."
+board_image: "/guides/kids-youtube-general-knowledge-board.jpg"
 status: "승인 대기"
 ---
 
