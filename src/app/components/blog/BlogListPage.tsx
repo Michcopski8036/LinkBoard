@@ -147,7 +147,7 @@ export function BlogFooter() {
           </span>
         </Link>
         <p className="text-[12px] text-gray-400">
-          © {new Date().getFullYear()} SaveBoard. All rights reserved.
+          © Creators Loft {new Date().getFullYear()} / All Rights Reserved
         </p>
       </div>
     </footer>

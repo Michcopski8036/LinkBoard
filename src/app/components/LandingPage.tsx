@@ -97,7 +97,7 @@ const COPY = {
     finalTitle1: 'Never lose a link',
     finalTitleEm: 'again',
     finalSub: 'SaveBoard is free to start. No scrolling required ever again.',
-    rights: '© 2026 SaveBoard. All rights reserved.',
+    rights: '© Creators Loft 2026 / All Rights Reserved',
   },
   ko: {
     blog: '블로그',
@@ -184,7 +184,7 @@ const COPY = {
     finalTitle1: '다시는 링크를',
     finalTitleEm: '잃지 마세요',
     finalSub: 'SaveBoard는 무료로 시작해요. 다시는 스크롤할 필요 없이.',
-    rights: '© 2026 SaveBoard. All rights reserved.',
+    rights: '© Creators Loft 2026 / All Rights Reserved',
   },
 } as const;
 
