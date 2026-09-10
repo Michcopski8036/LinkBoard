@@ -67,7 +67,7 @@ Part of the **Creators Loft** studio (also PeriodVol). Founder: Mihee Youn — a
   for our upload key — it is not a CA-chained cert. Only `jar verified.` matters.
 
 ## iOS release (CLI workflow — no Xcode GUI needed)
-- Versions in `ios/App/App.xcodeproj/project.pbxproj`: `CURRENT_PROJECT_VERSION` (build #) + `MARKETING_VERSION` — **4 entries each** (App Debug/Release + ShareExtension Debug/Release); keep all equal. **Current: 1.0.10 / build 22.**
+- Versions in `ios/App/App.xcodeproj/project.pbxproj`: `CURRENT_PROJECT_VERSION` (build #) + `MARKETING_VERSION` — **4 entries each** (App Debug/Release + ShareExtension Debug/Release); keep all equal. **Current: 1.0.11 / build 23.**
 - ⚠️ When the marketing version is "Ready for Distribution"/approved, that version train CLOSES — bump `MARKETING_VERSION` for any update (altool error 90186/90062 otherwise).
 - `ShareExtension/Info.plist` uses `$(MARKETING_VERSION)`/`$(CURRENT_PROJECT_VERSION)` (must match parent app or App Store warns).
 - Workflow:
@@ -82,6 +82,32 @@ Part of the **Creators Loft** studio (also PeriodVol). Founder: Mihee Youn — a
   xcrun altool --upload-app -f build/export/App.ipa -t ios \
     -u artking81@hotmail.com -p @keychain:AC_PASSWORD
   ```
+- **After upload, confirm processing** — `UPLOAD SUCCEEDED` only means the bytes
+  arrived. altool prints a `Delivery UUID`; poll it:
+  ```
+  xcrun altool --build-status --delivery-id <uuid> \
+    -u artking81@hotmail.com -p @keychain:AC_PASSWORD --output-format json
+  ```
+  `"build-status": "VALID_BINARY"` appears immediately; the one that matters is
+  `app-store-attributes.processingState` going `PROCESSING` → `VALID`. (`--wait`
+  blocks until it settles.) Only then does the build show up as selectable in
+  App Store Connect.
+- **Verifying the live version: `itunes lookup` storefronts disagree.** The `us`
+  storefront can keep answering the *previous* version for a day or more after a
+  release (2026-09-10: `au`/`gb`/`kr` all returned `1.0.10 2026-09-09` while `us`
+  still said `1.0.9`). Treat a single-storefront answer as unreliable — check two
+  or three, and let App Store Connect break the tie. Do **not** conclude the
+  release did not go out because `us` is behind.
+- **Verifying the IPA — same constant-folding trap as the AAB.** `apiUrl()` is
+  minified to `` function ec(t){return G1()?`${du}${t}`:t} `` with
+  `du="https://www.saveboard.app"`, so `grep "saveboard.app/api"` finds nothing
+  even when the fix is in. Unzip the IPA and grep
+  `Payload/App.app/public/assets/*.js` for the literal `https://www.saveboard.app`,
+  for `fetch(ec("/api/` (the wrapped call sites), and confirm `fetch("/api/`,
+  `fetch('/api/` and `` fetch(`/api/ `` are all **zero**. Lazy chunks import the
+  helper by its export alias (`import{a as d}from"./index-*.js"` → `` d(`/api/metadata` ``),
+  so follow the alias rather than expecting `ec` everywhere. Minified names are
+  regenerated every build — re-derive them, never reuse these.
 - **Upload auth:** app-specific password is in the login keychain as service `AC_PASSWORD`. ⚠️ Create it with `security add-generic-password -s AC_PASSWORD -a artking81@hotmail.com -w "<pw>" -U` — altool's own `--store-password-in-keychain-item` sets the label but not `svce` on Xcode 26, and lookup is by service, so it fails to find what it just stored. `-p` also needs a space before its value.
 - Then App Store Connect (web) → Distribution → `+` new version → add build → "What's New" → Submit for Review. (TestFlight ≠ submission.)
 

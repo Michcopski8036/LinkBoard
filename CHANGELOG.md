@@ -21,8 +21,9 @@ notes live in `store/release-notes.md`.
 
 | iOS | build | Android | vc | Status | Date |
 |---|---|---|---|---|---|
+| 1.0.11 | 23 | — | — | **iOS only — uploaded to App Store Connect 2026-09-10, NOT submitted for review** (founder submits). Same client code as Android 1.0.16 | 2026-09-10 |
 | — | — | 1.0.16 | 20 | **AAB built 2026-09-10 — not uploaded** (founder uploads) — the app can finally reach our own API (expiring-thumbnail copy, account delete, in-app admin), TikTok share links read as video instead of "Article" | 2026-09-10 |
-| 1.0.10 | 22 | 1.0.15 | 19 | **Android 1.0.15 LIVE** (Play page store-verified 2026-09-10). iOS: `itunes lookup` returns `1.0.10 2026-09-09`, but App Store Connect was reported as "Waiting for Review" on 2026-09-10 — **unresolved, check ASC before assuming either way** | 2026-09-09 |
+| 1.0.10 | 22 | 1.0.15 | 19 | **LIVE both stores** — iOS approved, released 2026-09-09 (App Store Connect + `itunes lookup` au/gb/kr all `1.0.10 2026-09-09`, re-checked 2026-09-10; the **us** storefront still answers `1.0.9` — stale CDN cache, not a second train). Play page store-verified 2026-09-10 | 2026-09-09 |
 | 1.0.9 | 21 | 1.0.14 | 18 | **LIVE both stores** (store-verified 2026-09-09: iOS released 2026-08-14, Play shows 1.0.14) — Android payment-screen fix (Apple IAP view shown since 05-27 → paying impossible) + all Aug feature work, cumulative | 2026-08-13 |
 | 1.0.8 | 20 | — | — | **iOS LIVE 2026-07-28** (store-verified 2026-08-13) — YouTube in-app playback fix (WKWebView UA + IFrame Player API), billing-failure recovery, iPhone layout (safe-area top, bottom-nav spacing). Android 1.0.13/vc17 was built 07-23 but **never uploaded** → superseded by 1.0.14/vc18 | 2026-07-27 |
 | 1.0.7 | 19 | 1.0.12 | 16 | **Both submitted for review** | 2026-07-19 |
@@ -30,10 +31,57 @@ notes live in `store/release-notes.md`.
 
 ---
 
+## iOS 1.0.11 (build 23) — built + uploaded 2026-09-10
+
+**iOS only.** `android/app/build.gradle` was not touched — Android stays at
+1.0.16 / vc20, whose AAB is built and waiting for the founder to upload.
+Baseline is iOS 1.0.10 / build 22, **live since 2026-09-09** (verified on the
+day: App Store Connect plus `itunes lookup` on au/gb/kr; the us storefront
+still returns 1.0.9, which is a stale cache). That train is closed, so
+MARKETING_VERSION moves to 1.0.11.
+
+This build carries **exactly the client code that Android 1.0.16 carries** —
+`7799d4d9`, `d95dad30` and the safe-area fix, all already on `main`. See the
+Android 1.0.16 section below for the full write-up; the short version:
+
+- **The app could not reach our own API at all** (`7799d4d9`). iOS runs the web
+  view from `capacitor://localhost`, so a relative `fetch('/api/...')` never
+  left the app. `apiUrl()` (`src/app/lib/urls.ts`) returns an absolute
+  `https://www.saveboard.app` URL on native; 8 call sites converted. Unblocks:
+  the in-app Admin screen, link titles/previews from our own `api/metadata`
+  instead of a silent fallback to third-party Microlink (this is why YouTube
+  saves came in titled "YouTube Video"), and account deletion from the app.
+- **Expiring thumbnails are copied to our storage for the first time in the
+  app.** 1.0.10's store notes already promised this, but the copy only ever ran
+  on the web: `/api/proxy` had no CORS *and* the client used a relative URL.
+  Server CORS deployed 2026-09-10; this build is the client half. ⚠️ Store
+  notes must not call it a fix — for app users it starts working here.
+- **TikTok cards were labelled "Article · N min read"** (`d95dad30`) because
+  share-sheet links are `vt.tiktok.com` / `vm.tiktok.com` short links.
+- Admin top bar no longer sits under the iOS status bar (safe-area top inset).
+
+**Verified for this build:** `npm run build` typecheck gate passed; archive and
+export succeeded; `Payload/App.app/Info.plist` and
+`PlugIns/ShareExtension.appex/Info.plist` both read
+`CFBundleShortVersionString 1.0.11` / `CFBundleVersion 23`; the bundled JS
+contains the absolute API base with no bare `fetch("/api/` left; altool
+returned `UPLOAD SUCCEEDED` (delivery `8c7f9f75-0b7c-488b-8a29-b8630b2f37da`)
+and `altool --build-status` polled through to
+`processingState: VALID` / `import-status: VALID` on App Store Connect.
+
+**Not verified:** the IPA was not run on a simulator or device. The API fix was
+checked by grep against the shipped bundle, not from the installed app.
+
+**Not done on purpose:** not submitted for review, no store metadata changes,
+`app_config` untouched. **After 1.0.11 goes live:** bump
+`app_config.latest_version` (iOS `1.0.11`).
+
 ## Android 1.0.16 (versionCode 20) — built 2026-09-10
 
-**Android only.** iOS is untouched and stays at 1.0.10 / build 22 (in the
-review queue as of 2026-09-10 — the pbxproj was not edited). Baseline is
+**Android only.** iOS was untouched by *this* build and stayed at 1.0.10 /
+build 22 (the pbxproj was not edited here). ⚠️ This section originally said
+1.0.10 was "in the review queue" — wrong: it was **approved and released
+2026-09-09**. iOS moved to 1.0.11 / build 23 later the same day (section above). Baseline is
 Android 1.0.15 / vc19, live on Play (store-verified 2026-09-10). Everything
 below merged to `main` today; the server halves are already deployed, this
 build carries the client halves.

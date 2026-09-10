@@ -5,6 +5,38 @@ Console release notes. Play's limit is 500 characters per language.
 
 ---
 
+## iOS 1.0.11 (iOS only)
+
+iOS-only build; Android stays at 1.0.16 (its AAB is built and waiting to be
+uploaded). The client code is **identical** to Android 1.0.16, so the notes are
+deliberately the same text — one release, two stores, one story.
+
+⚠️ Same wording rule as Android 1.0.16: this does **not** say the thumbnails
+were "fixed". 1.0.10's App Store note already promised the copy, but it only
+ever ran on the web (`/api/proxy` had no CORS and the client used a relative
+URL, which never leaves the app on native). For iPhone users 1.0.11 is the
+**first** build where it works, so the note describes what it does, not what it
+repairs.
+
+The in-app Admin fix, the API plumbing and the safe-area tweak are left out on
+purpose — admin is founder-only and the rest is invisible.
+
+### English
+
+```
+Previews that stay put. Instagram, TikTok, Facebook and X host their thumbnails on links that expire after a few days, which left your cards blank — SaveBoard now keeps its own copy of the image, so the preview stays. TikTok links you share in are also recognised as videos now: the right vertical shape and a play button, instead of being filed as an article. Fetching titles and previews is more reliable too.
+```
+(411 characters.)
+
+### 한국어
+
+```
+미리보기가 그대로 남아 있어요. 인스타그램·틱톡·페이스북·X 썸네일은 며칠 뒤 만료되는 주소에 올라와 있어서 카드가 비어 보이곤 했는데, 이제 SaveBoard가 이미지 사본을 직접 보관합니다. 공유해서 넣은 틱톡 링크도 영상으로 알아봐요 — 글로 분류되던 것이 세로 비율과 재생 버튼이 붙은 영상 카드로 표시됩니다. 제목·미리보기를 가져오는 것도 더 안정적입니다.
+```
+(204 characters.)
+
+---
+
 ## Android 1.0.16 (Android only)
 
 Android-only build; iOS stays at 1.0.10. Leads with thumbnail persistence and
