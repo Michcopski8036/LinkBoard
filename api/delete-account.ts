@@ -7,6 +7,13 @@ const supabase = createClient(
 );
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // 계정 삭제는 앱 안에서도 부른다 — 네이티브는 로컬 스킴이라 크로스오리진이고,
+  // POST + Content-Type: application/json 은 프리플라이트를 부른다. OPTIONS 에 200 을
+  // 돌려주지 않으면 요청이 아예 나가지 않는다(스토어 심사에서 요구하는 기능이다).
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { userId } = req.body as { userId: string };

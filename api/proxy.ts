@@ -70,6 +70,14 @@ async function proxyImage(url: string, res: VercelResponse) {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // 네이티브 앱은 capacitor://localhost(iOS) · http://localhost(Android) 에서 돌아서
+  // 이 라우트를 부르면 크로스오리진이다. 헤더가 없으면 브라우저가 응답을 막고,
+  // 만료 썸네일 복사가 조용히 실패해 원본(곧 만료될) URL 로 폴백한다.
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
+
   const { url, mode } = req.query;
 
   // ?mode=image — 만료되는 소셜 CDN 썸네일만 통과시킨다.

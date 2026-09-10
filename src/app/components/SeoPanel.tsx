@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { CheckCircle, XCircle, RefreshCw, Bot, Clock, Globe, AlertCircle } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { supabase } from '../lib/supabase';
+import { apiUrl } from '../lib/urls';
 
 interface SeoCheck { id: string; label: string; pass: boolean; detail: string; }
 interface SeoResult {
@@ -54,7 +55,7 @@ export function SeoPanel({ accessToken }: Props) {
     setLoading(true); setError(null);
     try {
       // /api/bot-stats was merged into /api/seo-check (Vercel Hobby 12-function limit).
-      const seoRes = await fetch('/api/seo-check', { headers: { Authorization: `Bearer ${accessToken}` } });
+      const seoRes = await fetch(apiUrl('/api/seo-check'), { headers: { Authorization: `Bearer ${accessToken}` } });
       if (seoRes.ok) { const d = await seoRes.json(); setSeo(d); setBots(d.bots ?? []); }
     } catch (e: any) {
       setError(e.message);

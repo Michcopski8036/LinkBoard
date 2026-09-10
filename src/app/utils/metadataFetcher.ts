@@ -1,3 +1,5 @@
+import { apiUrl } from '../lib/urls';
+
 function extractYouTubeVideoId(url: string): string | null {
   const patterns = [
     /youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/,
@@ -56,8 +58,8 @@ export async function fetchMetadata(url: string): Promise<{ title: string; descr
 
   // ── 1. Our own serverless API (server-side fetch — no CORS, no rate limits) ──
   try {
-    const apiUrl = `/api/metadata?url=${encodeURIComponent(url)}`;
-    const res = await fetch(apiUrl, { signal: AbortSignal.timeout(10000) });
+    const endpoint = apiUrl(`/api/metadata?url=${encodeURIComponent(url)}`);
+    const res = await fetch(endpoint, { signal: AbortSignal.timeout(10000) });
     if (res.ok) {
       const data = await res.json();
       if (data.title || data.description || data.image) {

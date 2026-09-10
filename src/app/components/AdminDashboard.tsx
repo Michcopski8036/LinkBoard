@@ -11,6 +11,7 @@ import { supabase } from '../lib/supabase';
 import { WorldMap } from './WorldMap';
 import { SeoPanel } from './SeoPanel';
 import { ReleasePanel } from './ReleasePanel';
+import { apiUrl } from '../lib/urls';
 
 export interface AdminStats {
   overview: {
@@ -423,7 +424,7 @@ export function AdminDashboard({ onClose, userEmail }: { onClose: () => void; us
       if (!session) throw new Error('Not authenticated');
       setAccessToken(session.access_token);
       const startedAt = performance.now();
-      const res = await fetch('/api/admin-stats', {
+      const res = await fetch(apiUrl('/api/admin-stats'), {
         headers: { Authorization: `Bearer ${session.access_token}` },
       });
       setApiMs(Math.round(performance.now() - startedAt));
@@ -457,7 +458,7 @@ export function AdminDashboard({ onClose, userEmail }: { onClose: () => void; us
     const prev = planOverrides[userId];
     setPlanOverrides(p => ({ ...p, [userId]: planKey })); // optimistic
     try {
-      const res = await fetch('/api/admin-update-plan', {
+      const res = await fetch(apiUrl('/api/admin-update-plan'), {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, planKey }),
@@ -528,8 +529,15 @@ export function AdminDashboard({ onClose, userEmail }: { onClose: () => void; us
     <div className="fixed inset-0 z-[500] flex flex-col" style={{ background: t.pageBg }}>
 
       {/* ── Top bar ─────────────────────────────────────────────────────── */}
+      {/* 상태바(노치·다이내믹아일랜드) 아래에서 시작해야 한다. py-3 만 두면 제목과 버튼이
+          시계·통신사 아이콘 위로 올라가 겹친다 — 실기기에서 확인됨(2026-09-10).
+          UpdateGate 배너와 같은 값을 쓴다. */}
       <div className="flex items-center justify-between px-6 py-3 shrink-0"
-        style={{ background: t.cardBg, borderBottom: `1px solid ${t.cardBorder}` }}>
+        style={{
+          background: t.cardBg,
+          borderBottom: `1px solid ${t.cardBorder}`,
+          paddingTop: 'calc(env(safe-area-inset-top, 0px) + 0.75rem)',
+        }}>
         <div className="flex items-center gap-3">
           <div className="w-7 h-7 rounded-lg flex items-center justify-center"
             style={{ background: 'linear-gradient(135deg,#7C3AED,#6366F1)' }}>

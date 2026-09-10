@@ -64,6 +64,7 @@ import { PrivacyPage } from './components/PrivacyPage';
 import { TermsPage } from './components/TermsPage';
 import { deriveAiTags } from './components/LinkCard';
 import { HomePage } from './components/HomePage';
+import { apiUrl } from './lib/urls';
 
 type ViewMode   = 'masonry' | 'grid' | 'gallery' | 'list' | 'kanban';
 type SortOption = 'newest' | 'oldest' | 'a-z' | 'z-a' | 'custom';
@@ -707,7 +708,7 @@ function AppContent() {
     try { host = new URL(imageUrl).hostname.replace('www.', ''); } catch { return imageUrl; }
     if (!EXPIRING_IMAGE_HOSTS.some(h => host === h || host.endsWith('.' + h))) return imageUrl;
     try {
-      const res = await fetch(`/api/proxy?mode=image&url=${encodeURIComponent(imageUrl)}`, { signal: AbortSignal.timeout(15000) });
+      const res = await fetch(apiUrl(`/api/proxy?mode=image&url=${encodeURIComponent(imageUrl)}`), { signal: AbortSignal.timeout(15000) });
       if (!res.ok) return imageUrl;
       const blob = await res.blob();
       if (!blob.type.startsWith('image/')) return imageUrl;
@@ -1059,7 +1060,7 @@ function AppContent() {
 
   const handleDeleteAccount = async () => {
     if (!user) return;
-    const res = await fetch('/api/delete-account', {
+    const res = await fetch(apiUrl('/api/delete-account'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: user.id }),
