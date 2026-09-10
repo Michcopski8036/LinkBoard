@@ -29,10 +29,21 @@ const BOT_UA = /bot|crawl|spider|facebookexternalhit|facebookcatalog|whatsapp|te
 //   3. 하나도 없으면 기존 일반 이미지로 폴백.
 // ⚠️ placeholder:* 는 URL 이 아니라 앱 내부 표식이라 반드시 걸러야 한다.
 const OUR_STORAGE = 'mchikdltrcbovhdzdhhf.supabase.co';
+// 유튜브 카드는 image 를 저장하지 않는다 — 앱이 영상 ID 로 그때그때 썸네일 주소를 만든다.
+// 그래서 스냅샷만 보면 유튜브만 담긴 보드는 이미지가 하나도 없는 것처럼 보인다
+// (2026-09-10 확인: 가이드 보드 3장이 전부 그랬다). 여기서도 같은 방식으로 만들어 준다.
+function youTubeThumb(url: string): string | null {
+  const m = url.match(/youtube\.com\/shorts\/([\w-]+)/)
+    || url.match(/youtube\.com\/watch\?v=([\w-]+)/)
+    || url.match(/youtu\.be\/([\w-]+)/);
+  return m ? `https://img.youtube.com/vi/${m[1]}/hqdefault.jpg` : null;
+}
 function pickBoardImage(links: any[]): string | null {
-  const usable = links
-    .map(l => (typeof l?.image === 'string' ? l.image : ''))
-    .filter(u => /^https?:\/\//i.test(u));
+  const usable = links.map(l => {
+    const img = typeof l?.image === 'string' ? l.image : '';
+    if (/^https?:\/\//i.test(img)) return img;
+    return typeof l?.url === 'string' ? youTubeThumb(l.url) : null;
+  }).filter((u): u is string => !!u);
   return usable.find(u => u.includes(OUR_STORAGE)) ?? usable[0] ?? null;
 }
 
