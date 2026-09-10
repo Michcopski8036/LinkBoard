@@ -21,13 +21,69 @@ notes live in `store/release-notes.md`.
 
 | iOS | build | Android | vc | Status | Date |
 |---|---|---|---|---|---|
-| 1.0.10 | 22 | 1.0.15 | 19 | **Built + uploaded 2026-09-09 (console submission pending)** — share-sheet save returns you to the source app (Android), TikTok titles/thumbnails, thumbnails that outlive the platform CDN, update banner under the status bar, shared-board links no longer eat the Free quota | 2026-09-09 |
+| — | — | 1.0.16 | 20 | **AAB built 2026-09-10 — not uploaded** (founder uploads) — the app can finally reach our own API (expiring-thumbnail copy, account delete, in-app admin), TikTok share links read as video instead of "Article" | 2026-09-10 |
+| 1.0.10 | 22 | 1.0.15 | 19 | **Android 1.0.15 LIVE** (Play page store-verified 2026-09-10). iOS: `itunes lookup` returns `1.0.10 2026-09-09`, but App Store Connect was reported as "Waiting for Review" on 2026-09-10 — **unresolved, check ASC before assuming either way** | 2026-09-09 |
 | 1.0.9 | 21 | 1.0.14 | 18 | **LIVE both stores** (store-verified 2026-09-09: iOS released 2026-08-14, Play shows 1.0.14) — Android payment-screen fix (Apple IAP view shown since 05-27 → paying impossible) + all Aug feature work, cumulative | 2026-08-13 |
 | 1.0.8 | 20 | — | — | **iOS LIVE 2026-07-28** (store-verified 2026-08-13) — YouTube in-app playback fix (WKWebView UA + IFrame Player API), billing-failure recovery, iPhone layout (safe-area top, bottom-nav spacing). Android 1.0.13/vc17 was built 07-23 but **never uploaded** → superseded by 1.0.14/vc18 | 2026-07-27 |
 | 1.0.7 | 19 | 1.0.12 | 16 | **Both submitted for review** | 2026-07-19 |
 | 1.0.6 | 18 | 1.0.11 | 15 | **LIVE** both stores | iOS 2026-07-17 |
 
 ---
+
+## Android 1.0.16 (versionCode 20) — built 2026-09-10
+
+**Android only.** iOS is untouched and stays at 1.0.10 / build 22 (in the
+review queue as of 2026-09-10 — the pbxproj was not edited). Baseline is
+Android 1.0.15 / vc19, live on Play (store-verified 2026-09-10). Everything
+below merged to `main` today; the server halves are already deployed, this
+build carries the client halves.
+
+**The app could not reach our own API at all** (`7799d4d9`)
+
+Native runs the web view from `http://localhost` (Android) /
+`capacitor://localhost` (iOS), so a relative `fetch('/api/...')` never left the
+app — it looked for that path inside the bundle, failed, and the failure ran
+off into a silent fallback. `apiUrl()` (`src/app/lib/urls.ts`) now returns an
+absolute `https://www.saveboard.app` URL on native; 8 call sites converted:
+admin-stats (x2), admin-update-plan, seo-check, app-config (x2), metadata,
+proxy image copy, delete-account. CORS was added to `api/proxy.ts` and
+`api/delete-account.ts` in the same commit — an absolute URL without CORS is
+still blocked by the browser.
+
+What that actually unblocks:
+
+- **Expiring thumbnails get copied for the first time in the app.** The
+  Instagram / TikTok / X thumbnail copy that shipped in 1.0.15 only ever
+  worked on the web: `/api/proxy` had no CORS *and* the client used a relative
+  URL. ⚠️ Do not write this up as a fix in store notes — for app users it has
+  never worked before this build.
+- Link metadata now comes from our own `api/metadata` (TikTok oEmbed, etc.)
+  instead of silently falling back to the third-party Microlink service.
+- Account deletion works from inside the app.
+- The in-app Admin screen loads instead of showing "The string did not match
+  the expected pattern." Founder-only, so deliberately left out of store notes.
+- Admin top bar now starts below the status bar (`safe-area-inset-top`, same
+  value as `UpdateGate`).
+
+**TikTok cards were labelled "Article · N min read"** (`d95dad30`)
+
+Links coming out of the share sheet are TikTok short links
+(`vt.tiktok.com` / `vm.tiktok.com`), and the video regex only matched
+`tiktok.com/@user/video/<id>` — so a video was filed as an article.
+`isTikTokUrl()` in `LinkCard.tsx` matches the short hosts too. A short link
+carries no video id, so there is still no autoplay embed, but the card gets
+the vertical ratio and the play button.
+
+**Server side, already deployed — not carried by this build:** CORS on
+`api/proxy` and `api/delete-account`. Verified live 2026-09-10:
+`OPTIONS /api/proxy` → `200` with `access-control-allow-origin: *`.
+
+**Not verified:** this AAB was not run on an emulator or device. The API fix
+was checked against prod with curl and against the built bundle by grep, not
+from the installed app.
+
+**After Play goes live:** bump `app_config.latest_version` (Android `1.0.16`).
+Not done at build time on purpose, and not done in this commit.
 
 ## iOS 1.0.10 (build 22) / Android 1.0.15 (versionCode 19) — built 2026-09-09
 

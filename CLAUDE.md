@@ -35,7 +35,7 @@ Part of the **Creators Loft** studio (also PeriodVol). Founder: Mihee Youn — a
 - **`store/release-notes.md` holds copy-paste-ready store notes (EN + KO).** Write them as part of preparing a release, not after. If a release has no user-facing change, say so plainly rather than inventing one.
 
 ## Android release
-- Version in `android/app/build.gradle`: `versionCode` (must increase) + `versionName`. **Current: versionCode 19 / 1.0.15.**
+- Version in `android/app/build.gradle`: `versionCode` (must increase) + `versionName`. **Current: versionCode 20 / 1.0.16.**
 - Signing: gitignored `android/keystore.properties`. Gradle needs:
   `JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"`
 - Build AAB:
@@ -46,6 +46,25 @@ Part of the **Creators Loft** studio (also PeriodVol). Founder: Mihee Youn — a
   Output: `android/app/build/outputs/bundle/release/app-release.aab`
 - Upload: Play Console → Production → Create release → **Upload** the AAB (or Add from library if already uploaded) → release notes → Start rollout. (Managed publishing off = auto-publish after Google review.)
 - Builds are **cumulative** — a newer versionCode contains all prior changes; version codes need not be contiguous.
+- **Verifying an AAB — do not grep for a constant-folded URL.** `apiUrl()` builds
+  `` `${PROD_URL}${path}` `` and esbuild does **not** fold that into a literal, so
+  `grep "www.saveboard.app/api"` inside `base/assets/public/assets/*.js` returns
+  **nothing even when the fix is in**. Grep for the two halves instead:
+  `du="https://www.saveboard.app"` (the const) and the minified helper
+  `function ec(t){return G1()?\`${du}${t}\`:t}` plus its call sites
+  (`ec("/api/...")`, and `d(\`/api/metadata`) in the metadataFetcher chunk).
+  ⚠️ The minified names (`ec`/`du`/`G1`/`d`) are **regenerated every build** — find
+  the current ones by grepping for the literal `https://www.saveboard.app` and for
+  `"/api/` , don't reuse the names above. A grep miss is not proof of absence.
+- **Reading versions out of the AAB:** `base/manifest/AndroidManifest.xml` is
+  *protobuf*, so `aapt2 dump xmltree` refuses it ("could not identify format of
+  APK") and `strings` shows only the attribute names. Byte-grep it:
+  `versionName` is followed by `\x1a\x06` + `1.0.16`, `versionCode` by
+  `\x1a\x0220`. The plain-text merged manifest is also at
+  `android/app/build/intermediates/packaged_manifests/release/processReleaseManifestForPackage/AndroidManifest.xml`.
+- `jarsigner -verify` on a release AAB prints `jar verified.` then warns about an
+  invalid/self-signed certificate chain and a missing timestamp. **That is normal**
+  for our upload key — it is not a CA-chained cert. Only `jar verified.` matters.
 
 ## iOS release (CLI workflow — no Xcode GUI needed)
 - Versions in `ios/App/App.xcodeproj/project.pbxproj`: `CURRENT_PROJECT_VERSION` (build #) + `MARKETING_VERSION` — **4 entries each** (App Debug/Release + ShareExtension Debug/Release); keep all equal. **Current: 1.0.10 / build 22.**
