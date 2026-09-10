@@ -105,6 +105,13 @@ function getTikTokVideoId(url: string): string | null {
   const m = url.match(/tiktok\.com\/@[^/]+\/video\/(\d+)/);
   return m ? m[1] : null;
 }
+// 공유 시트가 주는 틱톡 링크는 대부분 **단축 링크**(vt.tiktok.com / vm.tiktok.com)라
+// 위 정규식에 안 걸린다. 그래서 영상인데 "Article · N min read" 로 표시됐다
+// (2026-09-10 실기기에서 발견). ID 는 못 뽑으니 자동재생 embed 는 못 하지만,
+// 영상으로 분류돼 세로 비율·재생 버튼은 제대로 붙는다.
+function isTikTokUrl(url: string): boolean {
+  return /(^|\/\/)(vt|vm)\.tiktok\.com\//.test(url) || /tiktok\.com\//.test(url);
+}
 function isFacebookVideo(url: string): boolean {
   return /facebook\.com\/.*(\/videos?\/|\/watch|\/reel\/)/.test(url) || url.includes('fb.watch');
 }
@@ -375,7 +382,7 @@ export function LinkCard({
   const vimeoId   = getVimeoVideoId(link.url);
   const isVimeo   = vimeoId !== null;
   const tikTokId  = getTikTokVideoId(link.url);
-  const isTikTok  = tikTokId !== null;
+  const isTikTok  = tikTokId !== null || isTikTokUrl(link.url);
   const isIgVideo = isInstagramVideo(link.url);
   const isFbVid   = isFacebookVideo(link.url);
   const isFbReel  = isFacebookReel(link.url);
