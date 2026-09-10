@@ -76,6 +76,16 @@ checked by grep against the shipped bundle, not from the installed app.
 `app_config` untouched. **After 1.0.11 goes live:** bump
 `app_config.latest_version` (iOS `1.0.11`).
 
+## Android 1.0.17 (versionCode 21) — built 2026-09-10
+
+**1.0.16 은 Play 에 올라가기 전에 이 버전으로 대체됐다.** 그 사이 iOS 1.0.11 을 만들다가
+**안드로이드에서 Pro 결제를 시작조차 못 하던 것**을 찾았기 때문이다: `startCheckout` 이
+상대경로 `/api/create-checkout` 을 부르는데 안드로이드 앱은 http://localhost 에서 돌아
+서버에 닿지 않았고, 그 라우트만 CORS 도 없었다(create-portal 은 진작 열려 있었다).
+커밋 99e18a86 — 클라이언트 절대주소 + 서버 CORS. iOS 는 IAP 라 해당 없음.
+
+1.0.16 에 담겼던 것은 전부 포함한다(아래 참조).
+
 ## Android 1.0.16 (versionCode 20) — built 2026-09-10
 
 **Android only.** iOS was untouched by *this* build and stayed at 1.0.10 /
