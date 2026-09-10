@@ -31,6 +31,13 @@ async function getPriceId(productId: string): Promise<string> {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // 안드로이드 앱은 http://localhost 에서 돌아서 이 라우트가 크로스오리진이다.
+  // create-portal 은 진작 열려 있었는데 여기만 빠져 있었다 — 그 상태로는 앱에서
+  // 결제를 시작조차 못 한다(iOS 는 IAP 라 해당 없음). 2026-09-10 발견.
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+  if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { plan, userId, userEmail, interval } = req.body as {

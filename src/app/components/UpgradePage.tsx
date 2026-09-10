@@ -5,6 +5,7 @@ import { StoreKit, IAP_PRODUCTS, type StoreProduct } from '../lib/storekit';
 import { supabase } from '../lib/supabase';
 import { authedPost } from '../lib/authedFetch';
 import { useLanguage } from '../context/LanguageContext';
+import { apiUrl } from '../lib/urls';
 
 const AUD = { proMo: 5.49, proYr: 34.99, teamSeat: 9.49 };
 
@@ -62,7 +63,8 @@ function Cell({ value, highlight }: { value: boolean | string; highlight?: boole
 
 async function startCheckout(plan: 'pro' | 'team', interval: 'monthly' | 'yearly', userId: string | undefined, userEmail: string | undefined, ko: boolean) {
   if (!userId || !userEmail) { alert(ko ? '먼저 로그인해 주세요.' : 'Please sign in first.'); return; }
-  const r = await authedPost<{ url?: string }>('/api/create-checkout', { plan, interval, userId, userEmail });
+  // 네이티브(안드로이드)에서는 절대주소여야 서버에 닿는다 — BillingPage 의 create-portal 과 같다.
+  const r = await authedPost<{ url?: string }>(apiUrl('/api/create-checkout'), { plan, interval, userId, userEmail });
   if (!r.ok) {
     if (r.reason === 'reauth') {
       alert(ko ? '세션이 만료됐어요. 페이지를 새로고침한 뒤 다시 로그인해 주세요.' : 'Your session expired. Please refresh the page and sign in again.');
