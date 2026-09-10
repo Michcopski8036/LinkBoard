@@ -20,6 +20,22 @@ function domain(url: string): string {
 
 const BOT_UA = /bot|crawl|spider|facebookexternalhit|facebookcatalog|whatsapp|telegram|discord|slackbot|twitterbot|linkedinbot|pinterest|prerender|preview|iMessage|google|bing|yahoo|applebot/i;
 
+// 단톡방에 보드를 보내면 예전엔 전부 같은 SaveBoard 광고 이미지가 떴다 — 받는 사람 눈에는
+// 무엇이 담긴 보드인지 알 길이 없었다(2026-09-10 카카오톡 화면에서 확인).
+// 이제 보드 안의 실제 카드 이미지를 미리보기로 쓴다. 고르는 순서:
+//   1. 우리 스토리지(Supabase)에 있는 것 — 만료되지 않는다. 인스타·틱톡 썸네일은 저장 시
+//      우리가 사본을 떠 두므로 대개 여기 해당한다.
+//   2. 그 외 http(s) 이미지.
+//   3. 하나도 없으면 기존 일반 이미지로 폴백.
+// ⚠️ placeholder:* 는 URL 이 아니라 앱 내부 표식이라 반드시 걸러야 한다.
+const OUR_STORAGE = 'mchikdltrcbovhdzdhhf.supabase.co';
+function pickBoardImage(links: any[]): string | null {
+  const usable = links
+    .map(l => (typeof l?.image === 'string' ? l.image : ''))
+    .filter(u => /^https?:\/\//i.test(u));
+  return usable.find(u => u.includes(OUR_STORAGE)) ?? usable[0] ?? null;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const token = typeof req.query.token === 'string' ? req.query.token.trim() : '';
   if (!token) return res.redirect('/');
@@ -67,6 +83,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Lead with the board name so it stays visible even when link-preview UIs
   // (iMessage, WhatsApp, etc.) truncate the title after ~1-2 lines.
   const ogTitle = `“${category}” · shared by ${ownerName} on SaveBoard`;
+  // 보드 자신의 이미지가 있으면 그걸 쓴다. 크기 태그는 그때 붙이지 않는다 —
+  // 카드 이미지의 실제 비율을 모르는데 1200x630 이라고 우기면 크롤러가 잘못 자른다.
+  const boardImage = pickBoardImage(links as any[]);
+  const ogImage = boardImage ?? `${SITE}/og-image.png`;
   const ogDesc  = `${ownerName} shared the “${category}” board with you — ${count} save${count !== 1 ? 's' : ''}, all in one place on SaveBoard.`;
 
   const linksHtml = (links as any[]).slice(0, 9).map(l => `
@@ -92,15 +112,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   <meta property="og:url"          content="${esc(shareUrl)}"/>
   <meta property="og:title"        content="${esc(ogTitle)}"/>
   <meta property="og:description"  content="${esc(ogDesc)}"/>
-  <meta property="og:image"        content="${SITE}/og-image.png"/>
-  <meta property="og:image:width"  content="1200"/>
-  <meta property="og:image:height" content="630"/>
+  <meta property="og:image"        content="${esc(ogImage)}"/>
+${boardImage ? '' : `  <meta property="og:image:width"  content="1200"/>
+  <meta property="og:image:height" content="630"/>`}
 
   <meta name="twitter:card"        content="summary_large_image"/>
   <meta name="twitter:url"         content="${esc(shareUrl)}"/>
   <meta name="twitter:title"       content="${esc(ogTitle)}"/>
   <meta name="twitter:description" content="${esc(ogDesc)}"/>
-  <meta name="twitter:image"       content="${SITE}/og-image.png"/>
+  <meta name="twitter:image"       content="${esc(ogImage)}"/>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
